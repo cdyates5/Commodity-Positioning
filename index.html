@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commodity Positioning Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--hair:#e2e6ec;--txt:#161b24;--muted:#586271;--faint:#8b95a3;--amber:#d98315;--price:#2563c9;
+--mono:'IBM Plex Mono',ui-monospace,monospace;--disp:'Space Grotesk',-apple-system,Segoe UI,Roboto,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--disp);padding:clamp(18px,4vw,52px);max-width:940px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase;font-weight:600}
+h1{font-size:clamp(28px,5vw,42px);letter-spacing:-.02em;margin:.3em 0 .2em}
+.lede{color:var(--muted);font-size:15px;line-height:1.6;max-width:64ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:34px 0 26px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--hair);border-radius:14px;padding:20px 22px;
+  box-shadow:0 1px 2px rgba(16,24,40,.04),0 2px 6px rgba(16,24,40,.05);transition:.15s}
+.card:hover{border-color:#c9d3e2;box-shadow:0 3px 10px rgba(16,24,40,.09);transform:translateY(-1px)}
+.card h2{font-size:19px;margin:.5em 0 .35em}
+.card p{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0 0 16px}
+.stat{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.stat .v{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--price)}
+.stat .u{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stat .d{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.range{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:10px;border-top:1px solid var(--hair);padding-top:10px}
+.foot{font-family:var(--mono);font-size:11.5px;color:var(--faint);line-height:1.7;border-top:1px solid var(--hair);padding-top:16px}
+</style></head><body>
+<div class="eyebrow">CFTC Commitments of Traders</div>
+<h1>Commodity Positioning Monitor</h1>
+<p class="lede">Weekly speculative positioning across the liquid commodity futures complex — aggregated for all
+commodities, energy, metals and agriculture — with a notional-weighted price index for each group. Two views of the
+same underlying data: choose the trader definition and denominator you prefer.</p>
+<div class="grid">
+      <a class="card" href="speculative.html">
+        <div class="eyebrow">CFTC Legacy · Non-Commercial (Large Speculators)</div>
+        <h2>Total speculative net length</h2>
+        <p>Non-commercial (large speculator) net position as a share of total open interest — the conventional COT measure, and the longest history.</p>
+        <div class="stat"><span class="v">+13.8</span><span class="u">% of OI</span>
+          <span class="d">all commodities · 2026-09-01</span></div>
+        <div class="range">1,328 weekly observations · 2001-04-03 → 2026-09-01</div>
+      </a>
+      <a class="card" href="managed-money.html">
+        <div class="eyebrow">CFTC Disaggregated · Managed Money</div>
+        <h2>Managed money net length</h2>
+        <p>Managed money net position over its own gross book — a bounded ±100% read on how one-sided professional speculators are.</p>
+        <div class="stat"><span class="v">+43.1</span><span class="u">% of MM L+S</span>
+          <span class="d">all commodities · 2026-09-01</span></div>
+        <div class="range">1,056 weekly observations · 2006-06-13 → 2026-09-01</div>
+      </a>
+</div>
+<p class="foot">Rebuilt automatically every Saturday from CFTC source files. Last build: 09 Sep 2026 23:47 UTC.<br>
+Sources: CFTC Commitments of Traders (Legacy &amp; Disaggregated, futures-only); prices via Yahoo Finance.
+Not investment advice.</p>
+</body></html>
