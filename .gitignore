@@ -1,0 +1,10 @@
+# Raw CFTC zip downloads (~66 MB) — re-fetched each run and cached by GitHub Actions.
+# Never commit these.
+data/cot_cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
