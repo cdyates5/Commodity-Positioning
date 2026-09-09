@@ -1,0 +1,71 @@
+name: Update dashboard
+
+on:
+  schedule:
+    # CFTC publishes the COT report Friday 15:30 ET. This runs Saturday 09:00 UTC
+    # (Sat 19:00 Melbourne / Sat 05:00 ET) — comfortably after publication.
+    - cron: "0 9 * * 6"
+  workflow_dispatch:        # lets you trigger a rebuild by hand from the Actions tab
+  push:
+    branches: [main]
+    paths:                  # rebuild when the build logic or template changes
+      - "build.py"
+      - "template.html"
+      - ".github/workflows/update.yml"
+
+permissions:
+  contents: write           # required to commit refreshed data/ and docs/
+
+concurrency:
+  group: update-dashboard
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # CFTC history files for past years never change, so cache them.
+      # The key rolls weekly so the current year's file is always re-fetched fresh.
+      - name: Restore CFTC download cache
+        uses: actions/cache@v4
+        with:
+          path: data/cot_cache
+          key: cot-cache-${{ github.run_id }}
+          restore-keys: |
+            cot-cache-
+
+      - name: Build dashboards
+        run: python build.py
+
+      - name: Verify output
+        run: |
+          test -s docs/index.html
+          test -s docs/speculative.html
+          test -s docs/managed-money.html
+          echo "Built files:"; ls -la docs/
+
+      - name: Commit refreshed dashboard
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs data/prices.csv
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-update: COT data through $(date -u +%Y-%m-%d)"
+            git push
+          fi
