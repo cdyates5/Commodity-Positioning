@@ -53,16 +53,16 @@ jobs:
 
       - name: Verify output
         run: |
-          test -s docs/index.html
-          test -s docs/speculative.html
-          test -s docs/managed-money.html
-          echo "Built files:"; ls -la docs/
+          test -s index.html
+          test -s speculative.html
+          test -s managed-money.html
+          echo "Built files:"; ls -la *.html
 
       - name: Commit refreshed dashboard
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs data/prices.csv
+          git add index.html speculative.html managed-money.html .nojekyll data/prices.csv
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
